@@ -1,0 +1,35 @@
+% !TeX encoding = UTF-8
+%%% Variablen
+%%Muster
+%%\matrixvarentry[\einheit]{sortkey}{Variablenname}{Variablenbeschreibung}{Zeilen}{Spalten}{N,R,C} für matrizenwertige Variablen
+%%\scalarvarentry[\einheit]{sortkey}{Variablenname}{Variablenbeschreibung}{N,R,C} für skalare Variablen
+%
+%\matrixvarentry[]{x}{x}{Zustandsvektor}{6}{1}{C}
+%\matrixvarentry[]{q}{q}{verallgemeinerte Koordinaten}{6}{1}{R}
+%\matrixvarentry[]{v}{v}{Geschwindigkeitszustände}{6}{1}{R}
+%\scalarvarentry[]{u}{u}{Steuereingang}{R}
+%\scalarvarentry[]{g}{G_A(s)}{Übertragungsfunktion der geregelten Aktordynamik}{C}
+%
+%%Parameter mit Einheit
+%%Muster
+%%\parametervarentry[\einheit]{sortkey}{Parametername}{Parameterbeschreibung} für Parameter
+%\parameterentry[\meter]{g}{g}{Gravitationskonstante}
+%\parameterentry[]{g}{c}{Einheitenloser Parameter}
+
+\newglossaryentry{symb:Pi}{name=\ensuremath{\pi},
+	description={Geometrical value},
+	unit={-},
+	type=symbolslist}
+
+\newglossaryentry{height}{name=\ensuremath{h},
+	description={Height of tower},
+	unit={\si{\meter}},
+	type=symbolslist}
+
+\newglossaryentry{energyconsump}{name=\ensuremath{P},
+	description={Energy consumption},
+	unit={\si{\kilo\watt}},
+	type=symbolslist}
+
+% ==== EXEMPLARY ENTRY FOR ACRONYMS LIST ========================================
+\newacronym{EA}{EA}{Eigene Abkürzung}

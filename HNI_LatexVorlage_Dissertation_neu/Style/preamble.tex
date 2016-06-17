@@ -1,0 +1,315 @@
+% !TeX encoding = UTF-8
+\documentclass[a4paper,twoside,12pt,ngerman,openright,titlepage,halfparskip,headings=small,bibtotoc,pointlessnumbers,fleqn]{scrreprt} %[optionen]{Klasse}
+%[..,zweiseitig,..,neue dt.Rechtschr.,chaptereröffnung nur auf ungeraden Seiten,mit Titelseite, halbe Leerzeile bei Absätzen,
+% ..,kleine Überschriften,Literaturverzeichniseintrag ins Inhaltsverzeichnis,keine Punkte hinter chapternummern]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{emptypage}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}										%neue deutsche Rechtschreibung
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{uarial} 									%T1 Schriftsatz
+\usepackage{hyperref}
+\usepackage{graphicx}											%Einfügen von Bildern
+\usepackage[left=3cm,right=3.0cm,top=1.25cm,bottom=1.25cm,includeheadfoot]{geometry}	%Seitenaufteilung
+\usepackage{tabularx,array,booktabs,calc,multirow}				% Tabellen
+\usepackage{mathcomp}
+\usepackage{cite}
+\usepackage{pdfpages}											% Einbindung von PDFs
+\usepackage[babel,german=quotes]{csquotes}
+\usepackage[font={normalsize,it}]{caption}
+\usepackage{subcaption}										% Bei Bildern nebeneinander einzelne Bildunterschriften
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{paralist}											% Erweiterte Aufzählungsmöglichkeiten
+\usepackage{xifthen}											% ifempty
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathe-Pakete
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}											% Symbole für Zahlenmengen usw.
+\usepackage{cancel}												% Terme durchstreichen
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Schriftart
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{txfonts} 											% Schrift Times
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Koma-Style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{scrpage2}
+	% Kopfzeile
+	\pagestyle{scrheadings} 									% eigener Seitenstil
+	\clearscrheadings											% alle Voreinstellungen löschen
+	\ohead{\pagemark}											% Seitenzahl oben außen
+	\automark[chapter]{chapter} 								% \headmark definieren als Kapitelname
+	\renewcommand{\chapterpagestyle}{scrheadings}				% Kapitelbeginn wie der Rest
+	\rehead{\chaptername~\thechapter}							% Kapitelnummer   	
+	\renewcommand{\chaptermark}[1]{\markright{#1}}	
+	\lohead{\headmark}											% Kapitelname links auf ungeraden Seiten
+	\lefoot{}\refoot{}\lofoot{}\rofoot{}\cehead{}\cohead{}		% keine Seitenzahlen in Fußzeilen
+	\setheadsepline{0.2pt}										% Trennlinie zwischen Kopf und Textkörper
+	\addtokomafont{pagehead}{\footnotesize}						% Schrift in Kopfzeile um einen Faktor kleiner als Standard
+	\addtokomafont{pagehead}{\upshape}							% Schrift in Kopfzeile aufrecht (nicht kursiv)
+	\addtokomafont{footnote}{\sffamily}							% Fußnoten serifenlos
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Gestaltung der Überschriften
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\parindent0cm																							
+	\parskip\medskipamount	
+	\renewcommand*{\chapterformat}{%
+		\makebox[1.5cm][l]{\chapappifchapterprefix{\ }\thechapter\autodot\enskip}} 	% Chapter exakt 1.5cm hängend
+	\renewcommand*{\othersectionlevelsformat}[1]{%
+		\makebox[1.5cm][l]{\csname the#1\endcsname\autodot\enskip}}					% Section und Subsection hängend
+	
+	\RedeclareSectionCommand[
+	beforeskip=-24pt,																%Abstand vor Chapter
+	afterskip=12pt,																	%Abstand nach Chapter
+	font=\bfseries\fontsize{14}{1.5\baselineskip}\selectfont]{chapter}				%Schriftgröße und Zeilenabstand
+	
+	\RedeclareSectionCommand[
+	beforeskip=-24pt,
+	afterskip=8pt,
+	font=\bfseries\fontsize{13}{16}\selectfont]{section}
+	
+	\RedeclareSectionCommand[
+	beforeskip=-24pt,
+	afterskip=8pt,
+	font=\bfseries\fontsize{12}{16}\selectfont ]{subsection}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Zahlen und Einheiten SIUNITX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{siunitx}								% Zahlen + Einheiten Bsp:\SI{9.81}{\meter\per\square\second}
+	\sisetup{output-decimal-marker = {,}}
+	\DeclareSIUnit[number-unit-product = \,] 
+	\U{U}
+	\DeclareSIUnit[number-unit-product = \,] 
+	\Umin{\U \per \minute}
+	\DeclareSIUnit[number-unit-product = \,] 
+	\Us{\U \per \s}
+	\DeclareSIUnit[number-unit-product = \,] 
+	\Uss{\U \per \square\s}
+	\DeclareSIUnit[number-unit-product = \,] 
+	\decade{dek}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Befehl \vec für Vektorunterstriche
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{accents}											% für Vektorunterstriche
+	\renewcommand{\vec}[1]{\underaccent{\bar}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quellcode-Listing Einstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{color,listings}
+\usepackage{matlab-prettifier}
+	\lstset{numbers=left, numberstyle=\tiny,language=[Sharp]C,showspaces=false, showstringspaces=false, breaklines=true,captionpos=b, tabsize=2}
+	\lstset{literate=%
+		{Ö}{{\"O}}1
+		{Ä}{{\"A}}1
+		{Ü}{{\"U}}1
+		{ß}{{\ss}}1
+		{ü}{{\"u}}1
+		{ä}{{\"a}}1
+		{ö}{{\"o}}1
+		{~}{{\textasciitilde}}1
+	}
+	
+	\definecolor{latexkeyword}{RGB}{0,149,255}
+	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+	
+	\lstdefinestyle{myLatexStyle}{
+		language=[LaTeX]TeX,
+		frame=single,
+		backgroundcolor=\color{white},
+		rulecolor=\color{lightgray!40},
+		breaklines=true,
+		%  xleftmargin=\parindent,
+		basicstyle=\footnotesize\ttfamily,
+		keywordstyle=\bfseries\color{purple!40!black},
+		commentstyle=\itshape\color{green!40!black},
+		%identifierstyle=\color{blue},
+		stringstyle=\color{orange}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Eigene Environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{environ}											% Neue Environments siehe Settings
+	\NewEnviron{es}
+	{
+		\begin{equation}
+		\begin{split}
+		\BODY
+		\end{split}
+		\end{equation}
+	}
+	
+	\NewEnviron{es*}
+	{
+		\begin{equation*}
+			\begin{split}
+				\BODY
+			\end{split}
+		\end{equation*}
+	}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathtools Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{mathtools}											% Nummerierung von referenzierten Gleichungen
+	\mathtoolsset{showonlyrefs} %Nur Gleichungen die mit \eqref{label} referenziert werden nummerieren (mathtools)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Nomenklatur
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[acronym,nonumberlist,nomain]{glossaries} %Paket glossaries
+\usepackage{glossary-super} %besonderer style, den ich gut finde 
+
+\setlength{\glsdescwidth}{15cm}
+
+\newglossary[slg]{symbolslist}{syi}{syg}{Symbolverzeichnis} % create add. symbolslist
+
+
+\glsaddkey{unit}{\glsentrytext{\glslabel}}{\glsentryunit}{\GLsentryunit}{\glsunit}{\Glsunit}{\GLSunit}
+\makeglossaries                                   % activate glossaries-package
+
+\glssetnoexpandfield{unit}
+\glsdisablehyper
+\newglossarystyle{symbunitlong}{%
+	\setglossarystyle{long3col}% base this style on the list style
+	\renewenvironment{theglossary}{% Change the table type --> 3 columns
+		\begin{longtable}{lp{0.7\glsdescwidth}>{\centering\arraybackslash}p{2cm}}}%
+		{\end{longtable}}%
+	%
+	\renewcommand*{\glossaryheader}{%  Change the table header
+		\bfseries Name & \bfseries Beschreibung & \bfseries Einheit \\
+		\hline
+		\endhead}
+	\renewcommand*{\glossentry}[2]{%  Change the displayed items
+		\glstarget{##1}{\glossentryname{##1}} %
+		& \glossentrydesc{##1}% Description
+		& $\left[\glsunit{##1}\right]$  \tabularnewline
+	}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inhaltsverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tocstyle}
+\newtocstyle[KOMAlike][leaders]{alldotted}{}
+\usetocstyle{alldotted}
+\addtotoclist{toa} %Table of Appendix
+\newcounter{appendix}[chapter]
+\renewcommand{\theappendix}{\thechapter.\arabic{appendix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plots aus Matlab mit pgfplots
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pgfplots}
+\pgfplotsset{every axis/.append style={		
+		ticklabel style={/pgf/number format/.cd, use comma, 1000 sep = {},fixed,precision=2}		
+	}
+}
+\pgfplotsset{%
+	every axis plot post/.append style={line width = 2pt}} 
+%\pgfplotsset{execute at begin axis={\pgfplotsset{width=0.8\textwidth}}}
+
+\usepackage{adjustbox}
+\newcommand{\inserttikz}[6]{				% Befehl zum Einfügen von TIKZ
+	\newlength{\figureheight} 
+	\newlength{\figurewidth}
+	\setlength{\figureheight}{#4}
+	\setlength{\figurewidth}{#5}
+	{
+	\begin{figure}[{#6}]
+		\centering 
+			\begin{adjustbox}{max width=\textwidth}
+				\input{#1}
+			\end{adjustbox}
+		\caption{{#3}}
+		\label{#2}
+	\end{figure}
+	}
+	\let\figureheight\relax
+	\let\figurewidth\relax
+}
+% grid style
+\pgfplotsset{grid style={line width=.1pt, draw=gray!10}}
+\pgfplotsset{major grid style={line width=.2pt,draw=gray!50}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sonstige Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\parindent0.0cm													% Einrückung bei Absatz auf 0 setzen
+% Tabellen
+	\newcolumntype{L}[1]{>{\raggedright}p{#1}}						 %Linksbündiger Text in Tabellenzellen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Name für Bildunterschriften/Tabellenüberschriften
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\renewcaptionname{ngerman}{\figurename}{\itshape Bild}
+	\renewcaptionname{ngerman}{\tablename}{\itshape Tabelle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Format der Nummerierungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
+	\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
+	\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatierung der Bildunterschrift im Blocksatz (nicht zentriert)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\captionsetup{singlelinecheck=false,justification=justified}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\bibliographystyle{alphadin}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sonstige nützliche Pakete
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[abs]{overpic}										% Beschriftungen in Bildern
+%\usepackage{subfigure}
+%\usepackage{ulem}																	
+%\usepackage{esvect}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Eigene Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\todo}[1]{\noindent \textcolor{red}{\textbf{TODO: #1}}} % todo Markierung
+\newcommand{\fe}[1]{\texttt{{\fontdimen2\font=0.25em\fontdimen4\font=0em}#1}} %definiert figure element um Begriffe aus einem Bild hervorheben zu können
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}	%||x||
+\newcommand{\chapterohnepagebreak}[1]{{\let\clearpage\relax\chapter{#1}}}
+\newcommand{\chapteranhang}[1]{\chapter{#1}\addcontentsline{toa}{chapter}{\protect\numberline{\thechapter}#1}}
+\newcommand{\sectionanhang}[1]{\section{#1}\addcontentsline{toa}{section}{\protect\numberline{\thesection}#1}}
+\newcommand{\datenblatt}[5]{
+	\sectionanhang{#1}
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+			\includegraphics[page=#3,width=.81\textwidth]{Bilder/anhang/#2}	
+		\end{tabular}
+		\caption{#4}
+		\label{#5}
+	\end{figure}
+	\clearpage}
+
+\newcommand{\messung}[4]{
+	\sectionanhang{#1}	
+	\inserttikz{Bilder/#2}{#4}{#3}{0.4\textwidth}{0.7\textwidth}{htbp}
+	%\clearpage
+}
+

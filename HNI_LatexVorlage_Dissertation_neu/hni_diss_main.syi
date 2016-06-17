@@ -1,0 +1,10 @@
+\glossarysection[\glossarytoctitle]{\glossarytitle}\glossarypreamble
+\begin{theglossary}\glossaryheader
+\glsgroupheading{glssymbols}\relax \glsresetentrylist %
+\glossentry{energyconsump}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{I}}}%
+\glossentry{symb:Pi}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{I}}}%
+\glossentry{height}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{I}}}%
+\end{theglossary}\glossarypostamble

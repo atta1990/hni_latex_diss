@@ -1,0 +1,7 @@
+\glossarysection[\glossarytoctitle]{\glossarytitle}\glossarypreamble
+\begin{theglossary}\glossaryheader
+\glsgroupheading{E}\relax \glsresetentrylist %
+\glossentry{EA}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{I}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{5}}}%
+\end{theglossary}\glossarypostamble
